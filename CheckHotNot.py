@@ -62,5 +62,8 @@ def get_random_hot_song(song_result):
     'artist': 'artist',
     'pos': 'position'} 
     loads dataframe from billboard. User selects which timeframe(up to 10 weeks from current week). Recomments random song from timefram."""
-    
+    timeframe = input(f'I want my song recommendation from the last ________ weeks. (max. 10)')
+    billboard10 = load_billboard_csv()
+    billboard_timeframe = billboard10[billboard10[week_nr] in range(timeframe, max(billboard10[week_nr]))]
+    recommendation = billboard_timeframe.sample()
     
