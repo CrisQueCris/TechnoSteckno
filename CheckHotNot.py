@@ -55,3 +55,12 @@ def check_if_hot():
     if user_check == True:
         print(f'This song is hot right now!') 
     return result
+
+def get_random_hot_song(song_result):
+    """Takes a dictionary of format 
+    {'title': 'title',
+    'artist': 'artist',
+    'pos': 'position'} 
+    loads dataframe from billboard. User selects which timeframe(up to 10 weeks from current week). Recomments random song from timefram."""
+    
+    
