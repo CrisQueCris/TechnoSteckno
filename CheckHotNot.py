@@ -30,7 +30,7 @@ def check_if_hot():
 
         #Check if song title is in billboard10
         result={}
-        result['title'] = get_close_matches(user_input['title'], billboard10[(billboard10['week_nr'] == (iso_week-1))]['title'], n=1)
+        result['title'] = get_close_matches(user_input['title'], billboard10[(billboard10['week_nr'] == (iso_week-1))]['title'], n=1) #get closest (n=1)  match of only the last week (billboard10 has the last 10 weeks)
         if result['title']==[]:
             print(f"No song similar to {user_input['title']} is hot right now.")
             break              
