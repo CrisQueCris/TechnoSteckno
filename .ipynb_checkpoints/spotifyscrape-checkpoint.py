@@ -1,14 +1,23 @@
-import spotipy
-from spotipy.oauth2 import SpotifyClientCredentials
-import config
 import pandas as pd
 from time import sleep
 from random import randint
+
+def get_audio_features(df_out, sp):
+    """Get audio features from items in df_out"""
+    list_features =[]
+    for track_id in df_out['id']: 
+        track_features = sp.audio_features(track_id)[0]
+        list_features.append(track_features)
+        sleep(randint(1,5))
+    df_features = pd.DataFrame(list_features)
+    df_out = pd.concat([df_out,df_features], axis=1)
+    return df_out
 
 def get_tracklist(playlist_id, sp):
     """Get list of dictionaries containing id, name, popularity spotify playlist id"""
     track_id_list=[]
     playlist_tracks = sp.user_playlist_tracks("spotify", playlist_id, market="GB")
+    sleep(randint(1,4))
     while playlist_tracks['next']:
         playlist_tracks = sp.next(playlist_tracks)
         print(playlist_tracks['items'][0]['track']['id'])
