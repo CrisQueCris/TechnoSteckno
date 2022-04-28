@@ -29,7 +29,6 @@ def apply_scaler(X):
     X_scaled = scaler.transform(X)
     X_scaled_df = pd.DataFrame(X_scaled, columns = X.columns)
     display(X.head())
-    print()
     display(X_scaled_df.head())
     return X_scaled_df, scaler
 
@@ -38,7 +37,7 @@ def apply_kmeans(X_scaled_df, n):
     kmeans.fit(X_scaled_df)
     return kmeans
 
-def predict_kmeans(X_scaled_df):
+def predict_kmeans(X_scaled_df, X, kmeans):
     # assign a cluster to each example
     labels = kmeans.predict(X_scaled_df)
     # retrieve unique clusters
@@ -101,3 +100,14 @@ def yellowbricking(X_scaled_df, n):
     visualizer.fit(X_scaled_df)        # Fit the data to the visualizer
     visualizer.show()        # Finalize and render the figure
     return
+
+def save_pkl(model, filename = 'filename.pickle'): 
+    with open(filename, "wb") as f:
+        pickle.dump(model, f)
+
+def load_pkl(filename = 'filename.pickle'): 
+    try: 
+        with open(filename, "rb") as f: 
+            return pickle.load(f) 
+    except FileNotFoundError: 
+        print('File not found!') 
