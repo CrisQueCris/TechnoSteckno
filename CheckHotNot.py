@@ -2,6 +2,9 @@ import pandas as pd
 import os
 from datetime import datetime
 from difflib import get_close_matches
+from IPython.display import IFrame
+from songrecommender import showID_in_player
+
 
 def load_billboard_csv():
     #Load billboard top 100
@@ -42,7 +45,7 @@ def check_if_hot():
                                     & (billboard10['title'] == result['title'])]['position'].to_string(index=False)
 
         user_check = input(f"""Is it \"{result['title']}\" by {result['artist']}
-        that you're looking for?\n\n It is currently on number {result['pos']} (Y/N)""")
+        that you're looking for?\n It is currently on number {result['pos']}.\n  (Y/N)""")
         if user_check in ['Y','y','yes']:
             user_check = True
             hot_var=True
@@ -54,7 +57,7 @@ def check_if_hot():
             print('Input not readable. Please enter Y or N.')
     if user_check == True:
         print(f'This song is hot right now!') 
-    return result
+    return result, user_input
 
 def get_random_hot_song(song_result):
     """Takes a dictionary of format 
@@ -62,8 +65,12 @@ def get_random_hot_song(song_result):
     'artist': 'artist',
     'pos': 'position'} 
     loads dataframe from billboard. User selects which timeframe(up to 10 weeks from current week). Recomments random song from timefram."""
-    timeframe = input(f'I want my song recommendation from the last ________ weeks. (max. 10)')
+    timeframe = int(input(f'I want my song recommendation from the last ________ weeks. (max. 10)'))
     billboard10 = load_billboard_csv()
-    billboard_timeframe = billboard10[billboard10[week_nr] in range(timeframe, max(billboard10[week_nr]))]
+    current_week = max(billboard10['week_nr'])
+    week_before = current_week - timeframe
+    billboard_timeframe = billboard10[billboard10['week_nr'] <= current_week & billboard10['week_nr'] >= week_before]
     recommendation = billboard_timeframe.sample()
+    return recommendation
+   
     

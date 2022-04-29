@@ -34,27 +34,39 @@ def translate_pc_cam(key_pc, mode_pc):
     key = pitch_class[key_pc]
     tonality = mode[mode_pc]
     key_cam = [k for k,v in camelot.items() if v == [key, tonality]]
-    return key_cam[0:1]
+    return key_cam[0:1][0]
 
 def translate_cam_pc(key_cam):
     """takes a key in camelot notation and return the key in pitch class notation and the mode"""
-    key = camelot[key_cam][0:1]
-    tonality = camelot[key_cam][2]
+    key = camelot[key_cam][0]
+    tonality = camelot[key_cam][1]
     print(key, tonality)
     key_pc = [k for k,v in pitch_class.items() if v == key]
     mode_pc = [k for k,v in mode.items() if v == tonality]
     return key_pc, mode_pc
 
-def harmonic_sibbling(key_cam):
+def harmonic_sibblings(key_cam):
     """takes a key in camelot notation and returns the 4 harmonic neighbours"""
+    dict_trans={'01':'07','02':'08','03':'09','04':'10','05':'11','06':'12','07':'01','08':'02','09':'03','10':'04','11':'05','12':'06'}
+    
+    
     if key_cam[2] =='A':
-        pos_keys = str(int(key_cam[0:1])+1)+key_cam[1],\
-        str(int(key_cam[0:1])-1)+key_cam[2],\
-        str(int(key_cam[0:1])+6)+key_cam[2],\
-        key_cam[0]+'B'
+        pos_keys = [str(int(key_cam[0:2])+1)+key_cam[2],\
+        str(int(key_cam[0:2])-1)+key_cam[2],\
+        str(int(dict_trans[key_cam[0:2]]))+key_cam[2],\
+        key_cam[0:1]+'B']
     else:
-        pos_keys = str(int(key_cam[0])+1)+key_cam[2],\
-        str(int(key_cam[0:1])-1)+key_cam[2],\
-        str(int(key_cam[0:1])+6)+key_cam[2],\
-        key_cam[0]+'A'
+        pos_keys = [str(int(key_cam[0:2])+1)+key_cam[2],\
+        str(int(key_cam[0:2])-1)+key_cam[2],\
+        str(int(dict_trans[key_cam[0:2]]))+key_cam[2],\
+        key_cam[0:1]+'A']
+    for key in range(0,len(pos_keys)):
+        if len(pos_keys[key]) == 2:
+            pos_keys[key]= '0'+ pos_keys[key]
+            
+    for i in range(0,len(pos_keys)):
+        if int(pos_keys[i][0:2])>12:
+            pos_keys[i] = pos_keys[i].replace('13','01')
+        elif int(pos_keys[i][0:2]) < 1:
+            pos_keys[i]=pos_keys[i].replace('00','12')
     return pos_keys

@@ -2,6 +2,9 @@ import pandas as pd
 import os
 from datetime import datetime
 from difflib import get_close_matches
+from IPython.display import IFrame
+from songrecommender import showID_in_player
+
 
 def load_billboard_csv():
     #Load billboard top 100
@@ -30,7 +33,7 @@ def check_if_hot():
 
         #Check if song title is in billboard10
         result={}
-        result['title'] = get_close_matches(user_input['title'], billboard10[(billboard10['week_nr'] == (iso_week-1))]['title'], n=1)
+        result['title'] = get_close_matches(user_input['title'], billboard10[(billboard10['week_nr'] == (iso_week-1))]['title'], n=1) #get closest (n=1)  match of only the last week (billboard10 has the last 10 weeks)
         if result['title']==[]:
             print(f"No song similar to {user_input['title']} is hot right now.")
             break              
@@ -42,7 +45,7 @@ def check_if_hot():
                                     & (billboard10['title'] == result['title'])]['position'].to_string(index=False)
 
         user_check = input(f"""Is it \"{result['title']}\" by {result['artist']}
-        that you're looking for?\n\n It is currently on number {result['pos']} (Y/N)""")
+        that you're looking for?\n It is currently on number {result['pos']}.\n  (Y/N)""")
         if user_check in ['Y','y','yes']:
             user_check = True
             hot_var=True
@@ -54,4 +57,34 @@ def check_if_hot():
             print('Input not readable. Please enter Y or N.')
     if user_check == True:
         print(f'This song is hot right now!') 
-    return result
+    return result, user_input
+
+def get_random_hot_song(song_result):
+    """Takes a dictionary of format 
+    {'title': 'title',
+    'artist': 'artist',
+    'pos': 'position'} 
+    loads dataframe from billboard. User selects which timeframe(up to 10 weeks from current week). Recomments random song from timefram."""
+    timeframe = int(input(f'I want my song recommendation from the last ________ weeks. (max. 10)'))
+    billboard10 = load_billboard_csv()
+    current_week = max(billboard10['week_nr'])
+    week_before = current_week - timeframe
+    billboard_timeframe = billboard10[billboard10['week_nr'] <= current_week & billboard10['week_nr'] >= week_before]
+    recommendation = billboard_timeframe.sample()
+    return recommendation
+   
+    
+def show_if_hot(result, user_input):
+    """shows alternative from Top100 or if not hot get song data of user input"""
+    if result !={}:
+        song_df = get_song_df(result['title'])
+        print(f'This is your Hot song:')
+        display(showID_in_player(hot_song.loc[0, 'TrackID']))
+        print('Here is another song that was hot in the last 10 weeks:')
+        # recommendation = get_random_hot_song(result)
+        song_recommHot100 = load_billboard_csv().sample()
+        hot_song_rec = get_song_df(song_recommHot100['title'])
+        display(showID_in_player(hot_song_rec.loc[0, 'TrackID']))
+    else:
+        song_df = get_song_df(user_input['title'])
+    return song_df

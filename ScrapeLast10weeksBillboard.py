@@ -1,3 +1,15 @@
+from CheckHotNot import load_billboard_csv
+
+def time_to_scrape():
+    billboard10 = load_billboard_csv()
+    last_scraped = billboard10['week_date'].max()
+    print(f'Our last data is from {last_scraped}')
+    scrape = input('Would you like to get the current Top 100 now?(Y/N)')
+    if scrape == 'Y':
+        ScrapeLast9weeks()
+    return  
+
+
 def ScrapeLast10weeks():
     ### This file scrapes the last 9 weeks of the billboard charts and saves the result as csv per week in billboards/###
 

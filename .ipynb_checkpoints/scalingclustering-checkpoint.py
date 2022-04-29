@@ -33,7 +33,7 @@ def apply_scaler(X):
     return X_scaled_df, scaler
 
 def apply_kmeans(X_scaled_df, n):
-    kmeans = KMeans(n_clusters=n, random_state=1234)
+    kmeans = KMeans(n_clusters=n, random_state=1234, n_init = 20, max_iter = 500)
     kmeans.fit(X_scaled_df)
     return kmeans
 
