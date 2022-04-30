@@ -1,8 +1,8 @@
 # A Spotify song recommender
 
 ## The task is to recommend... 
-    ... Songs that are actually similar to the ones they picked from an acoustic point of view.
-    ... Songs that are popular around the world right now, independently from their tastes.
+    ... Songs that are actually similar to the ones the user picked from an acoustic point of view.
+    ... Songs that are popular around the world right now, independently from the user's taste.
 
 ## Process
 
@@ -22,9 +22,11 @@ In order to fullfill the tasks at hand this app does the following:
 **Additional features:**
 
 *tempo*
-This app is designed to fit Djing purposes. For a smooth transition from one song to the next song it is necessary that the both songs don't differ much in their tempo. Therefore the song recommendation will be maximum 8 beats per minute (BPM) faster or slower than the user input.
+
+This app is designed to fit Djing purposes. For a smooth transition from one song to the next song it is necessary that both songs don't differ much in their tempo. Therefore the song recommendation will be maximum 8 beats per minute (BPM) faster or slower than the user input.
 
 *harmony*
+
 Two songs that are mixed will only sound nice to the human ear if their keys align. Therefore the song recommendation will follow the rules of harmonic mixing (see [Camelot Wheel](https://mixedinkey.com/camelot-wheel/)).
 
 ![Camelot Wheel](https://mixedinkey.com/wp-content/uploads/2020/04/Camelot-Wheel-Mixed-In-Key-Harmonic-Mixing.png)
