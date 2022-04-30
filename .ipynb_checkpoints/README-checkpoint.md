@@ -39,6 +39,7 @@ This repo contains:
 - ScrapeLast10weeksBillboard.py: Get song information on Billboard Top100 plus 10 weeks
 - ScalingClustering.ipynb: The Kmeans model which is the basis for the song recommendation
 - harmonicneighbours.py: Moduls for translating from pitch_scale to Camelot Notation and back and returning the harmonic sibblings to the input scale.
+- CheckHotNot.py: Checks wether the user input is in the current Top100 of the billboard charts
 
 
 
