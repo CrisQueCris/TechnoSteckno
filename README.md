@@ -1,8 +1,8 @@
 # A Spotify song recommender
 
 ## The task is to recommend... 
-    ... Songs that are actually similar to the ones they picked from an acoustic point of view.
-    ... Songs that are popular around the world right now, independently from their tastes.
+    ... Songs that are actually similar to the ones the user picked from an acoustic point of view.
+    ... Songs that are popular around the world right now, independently from the user's taste.
 
 ## Process
 
