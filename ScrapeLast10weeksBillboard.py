@@ -5,8 +5,8 @@ def time_to_scrape():
     last_scraped = billboard10['week_date'].max()
     print(f'Our last data is from {last_scraped}')
     scrape = input('Would you like to get the current Top 100 now?(Y/N)')
-    if scrape == 'Y':
-        ScrapeLast9weeks()
+    if scrape in ['Y', 'y', 'yes', 'ja']:
+        ScrapeLast10weeks()
     return  
 
 
