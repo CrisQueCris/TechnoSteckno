@@ -9,7 +9,9 @@ from GSA import authenticate
 
 
 
-def get_song_df(trackName):
+def get_song_df(trackName, ):
+    
+    global sp, sp_oauth
     authenticate()
     #artistName = 'track:' + input('The title of your song:')
     #trackName = input('The artist of your song:')

@@ -45,7 +45,7 @@ def authenticate():
 	
 	# do a search to initiate
 	not_output = sp.me()
-	
+    
 	'''
 	token_info = sp_oauth.get_cached_token()
 	if not token_info:
