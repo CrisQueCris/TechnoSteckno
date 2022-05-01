@@ -5,14 +5,28 @@ import pandas as pd
 from time import sleep
 from random import randint
 from IPython.display import IFrame
-from GSA import authenticate
+import GSA
+import spotipy.oauth2 as oauth2
+import spotifyConstants
+
+sp_oauth = oauth2.SpotifyOAuth(client_id=spotifyConstants.myClientID,
+								   client_secret=spotifyConstants.myClientSecret,
+								   redirect_uri=spotifyConstants.myRedirect,
+								   username=spotifyConstants.myUser,
+								   scope=None)
+
+# create global sp? Not sure what is best, re parallelizing
+# if global, then would need to update auth
 
 
+sp = []
+
+#%% Authenticate
 
 def get_song_df(trackName, ):
     
     global sp, sp_oauth
-    authenticate()
+    sp = GSA.authenticate()
     #artistName = 'track:' + input('The title of your song:')
     #trackName = input('The artist of your song:')
     

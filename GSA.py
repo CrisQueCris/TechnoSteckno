@@ -73,7 +73,7 @@ def authenticate():
 	#token = token_info['access_token']
 	#global sp
 	#sp = spotipy.Spotify(auth=token)
-	return
+	return sp
 
 #%% this function checks of the token is expired, and refreshes it if so 
 # Call this before every call to sp.
@@ -162,7 +162,7 @@ def getInformation(thisList, verbose=False):
 				 'duration_ms':0
 				 }]
 		thisDf = pd.DataFrame(thisDict)
-		sampleDataFrame = sampleDataFrame.append(thisDf, ignore_index=True)
+		sampleDataFrame = pd.concat([sampleDataFrame, thisDf], ignore_index=True)
 		return 'error'
 		
 
@@ -249,7 +249,7 @@ def getInformation(thisList, verbose=False):
 				 'duration_ms':thisFeature[0]['duration_ms']
 				 }]
 			thisDf = pd.DataFrame(thisDict)
-			sampleDataFrame = sampleDataFrame.append(thisDf, ignore_index=True)
+			sampleDataFrame = pd.concat([sampleDataFrame, thisDf], ignore_index=True)
 
 	
 	# do a check here to see if empty 
@@ -275,11 +275,22 @@ def getInformation(thisList, verbose=False):
 				 'duration_ms':0
 				 }]
 		thisDf = pd.DataFrame(thisDict)
-		sampleDataFrame = sampleDataFrame.append(thisDf, ignore_index=True)
+		sampleDataFrame = spd.concat([sampleDataFrame, thisDf], ignore_index=True)
 		
 	# save as pickle here
 	sampleDataFrame.to_pickle(thisSaveName)
 	return thisSaveName
+
+def get_keywords(keywords):
+    for keyword in keywords:
+        playlistDf = searchPlaylists(keyword)
+    #GSA.authenticate()
+    thisSavename_list = []
+    for pl_id in playlistDf['playlistID']:
+        thisSavename = getInformation(pl_id, verbose=True)
+        thisSavename_list = thisSavename_list + [thisSavename]
+    return thisSavename_list
+
 
 
 #%% Function for downloading tracks
@@ -384,7 +395,7 @@ def searchPlaylists(searchWord, number=50, market=None):
 					   'url':thisPlaylist['owner']['external_urls']['spotify']}]
 			#print(thisEntry)
 			#print('\n')
-			playlistDF = playlistDF.append(thisEntry, ignore_index=True)
+			playlistDF = pd.concat([playlistDF, pd.DataFrame(thisEntry)], ignore_index=True)
 		# break loop if we get less results than the limit
 		if len(searchResults['playlists']['items']) < limit:
 			break
@@ -416,7 +427,7 @@ def getPlaylistFollowers(playlistIDs):
 		
 		thisEntry = [{'playlistID':playlistID,
 				'nFoll':thisFollowers}]
-		playlistDF = playlistDF.append(thisEntry, ignore_index=True)
+		playlistDF = pd.concat([playlistDF, thisEntry], ignore_index=True)
 		
 		
 
@@ -481,7 +492,7 @@ def getAlbumInformation(thisAlbum, verbose=False, asDataFrame=False):
 				 'duration_ms':0
 				 }]
 		thisDf = pd.DataFrame(thisDict)
-		albumDF = albumDF.append(thisDf, ignore_index=True)
+		albumDF = pd.concat([albumDF, thisDf], ignore_index=True)
 		return 'error'
 	
 	thisAlbumName = theseTracks['name']
@@ -568,7 +579,7 @@ def getAlbumInformation(thisAlbum, verbose=False, asDataFrame=False):
 				 'duration_ms':thisFeature[0]['duration_ms']
 				 }]
 			thisDf = pd.DataFrame(thisDict)
-			albumDF = albumDF.append(thisDf, ignore_index=True)
+			albumDF = pd.concat([albumDF, thisDf], ignore_index=True)
 
 	
 	# do a check here to see if empty 
@@ -596,7 +607,7 @@ def getAlbumInformation(thisAlbum, verbose=False, asDataFrame=False):
 				 'duration_ms':0
 				 }]
 		thisDf = pd.DataFrame(thisDict)
-		albumDF = albumDF.append(thisDf, ignore_index=True)
+		albumDF = pd.concat([albumDF, thisDf], ignore_index=True)
 		
 	# save as pickle here
 	albumDF.to_pickle(thisSaveName)
