@@ -5,11 +5,12 @@ import pandas as pd
 from time import sleep
 from random import randint
 from IPython.display import IFrame
+from GSA import authenticate
 
 
 
 def get_song_df(trackName):
-    sp = spotipy.Spotify(auth_manager=SpotifyClientCredentials(client_id=config.client_id, client_secret=config.client_secret))
+    authenticate()
     #artistName = 'track:' + input('The title of your song:')
     #trackName = input('The artist of your song:')
     
