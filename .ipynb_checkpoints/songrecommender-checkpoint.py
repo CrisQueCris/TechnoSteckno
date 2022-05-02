@@ -8,6 +8,7 @@ from IPython.display import IFrame
 import GSA
 import spotipy.oauth2 as oauth2
 import spotifyConstants
+import CheckHotNot 
 
 sp_oauth = oauth2.SpotifyOAuth(client_id=spotifyConstants.myClientID,
 								   client_secret=spotifyConstants.myClientSecret,
@@ -85,10 +86,10 @@ def show_if_hot(result, user_input):
         print('hot process')
         song_df = get_song_df(result['title'])
         print(f'This is your Hot song:')
-        display(showID_in_player(hot_song.loc[0, 'TrackID']))
+        display(showID_in_player(song_df.loc[0, 'TrackID']))
         print('Here is another song that was hot in the last 10 weeks:')
         # recommendation = get_random_hot_song(result)
-        song_recommHot100 = load_billboard_csv().sample()
+        song_recommHot100 = CheckHotNot.load_billboard_csv().sample()
         hot_song_rec = get_song_df(song_recommHot100['title'])
         display(showID_in_player(hot_song_rec.loc[0, 'TrackID']))
     else:
